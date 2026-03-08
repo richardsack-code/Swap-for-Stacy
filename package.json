@@ -1,14 +1,29 @@
 {
-  "name": "first_website",
+  "name": "swap-for-stacy",
   "version": "1.0.0",
-  "description": "",
-  "main": "dist/index.js",
+  "private": true,
+  "description": "Swap for stuff. Swap for Stacy.",
+  "homepage": "https://github.com/richardsack-code/Swap-for-Stacy#readme",
+  "bugs": {
+    "url": "https://github.com/richardsack-code/Swap-for-Stacy/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/richardsack-code/Swap-for-Stacy.git"
+  },
+  "license": "ISC",
+  "author": "Richard Sack",
+  "type": "module",
+  "main": "dist/app.js",
   "scripts": {
-    "build": "tsc"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
-  "dependencies": {},
   "devDependencies": {
-    "typescript": "^5.5.3"
+    "nodemon": "^3.1.14"
   },
-  "private": true
+  "dependencies": {
+    "express": "^5.2.1",
+    "lodash": "^4.17.23"
+  }
 }

@@ -126,19 +126,6 @@ h3 {
 }
 
 /* Mobile */
-@media (max-width: 480px) {
-    .item-present {
-        display: block;
-    }
-
-    h2 {                                    /*why doesnt this work?! */
-        font-size: 180%;
-    }
-
-    .item-present-description h2 {
-        font-size: 180%;
-    }
-}
 
 @media (max-height: 500px) {
     #title-bar {
@@ -178,5 +165,19 @@ h3 {
         width: 20%;
         margin: 50px 0 0 10%;
         justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .item-present {
+        display: block;
+    }
+
+    h2 {
+        font-size: 180%;
+    }
+
+    .item-present-description h2 {
+        font-size: 180%;
     }
 }
