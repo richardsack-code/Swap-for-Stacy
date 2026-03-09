@@ -1,10 +1,16 @@
 import express from 'express';
 import { logger } from './middlewares/logger.js';
 
+//this part I got from AI
+import { fileURLToPath } from 'url';
+import path from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
 const PORT = 3000;
 
-const staticPages = ["/index.html", "/wanna-swap.html", "/current-best-bidding.html", "/swap-history"];
+const staticPages = ["/index.html", "/wanna-swap.html", "/current-best-bidding.html", "/swap-history.html", "/utapau.html"];
 
 // --- PRE ROUTE MIDDLEWARE ---
 
@@ -19,10 +25,18 @@ app.use(express.urlencoded({extended: true}));
 
 // --- ROUTING ---
 
-app.get('/', (req, res) => {
-    res.send('Hello there!');
-    //send index static page
+app.get('/utapau', (req, res) => {
+    //easter egg
+    res.sendFile(path.join(__dirname, 'public', 'utapau.html'));
+});
 
+app.post("/utapau", (req, res) => {
+    //easter egg
+    if(/general kenobi/i.test(req.body.retort)) {
+        res.send("How uncivilized.");
+    } else {
+        res.send("...go watch Star Wars...");
+    }
 });
 
 
