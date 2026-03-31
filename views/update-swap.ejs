@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wanna Update</title>
+    <link rel="stylesheet" href="/style/style.css">
+</head>
+<body>
+
+<h1>Hey <%= swapper.name%>!</h1>
+<h2>What do you want to change?</h2>
+
+<div class="interact-box">
+    <div class="box">
+        <form action="/update-swap/delete" method="post">
+
+            <input type="hidden" name="swapperID" value = "<%=swapper._id%>">
+            If you want to delete an offer, simply enter the item name here: <input type="text" name="itemName" /> <br><br>
+            <button>Delete</button> <br><br>
+
+        </form>
+    </div>
+
+
+    <div class="box">
+        <ul>
+            <% items.forEach(item => {%>
+                <li>
+                    <form action="/update-swap/<%= item.name%>" method="post">
+
+                        <input type="hidden" name="swapperID" value = "<%=swapper._id%>">
+                        <%= item.name %> <br><br>
+                        Change Item Name: <input type="text" name="itemName" /> <br><br>
+
+                        <%= item.description %> <br><br>
+                        Change Item Description: <textarea type="text" name="itemDescription"> </textarea><br><br>
+
+                        <button>Update</button> <br><br>
+
+                    </form>
+                        <!-- later: add functionality to change uploaded images and videos -->
+                </li>
+            <% });%>
+        </ul>
+
+    </div>
+</div>
+
+</body>
+</html>

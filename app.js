@@ -88,7 +88,7 @@ app.post('/wanna-swap', async (req, res) => {
                 return;
             }
 
-            const itemExists = await Item.findOne({name: req.body.itemName, swapper: swapperExists}).exec();
+            const itemExists = await Item.findOne({name: itemName, swapper: swapperExists}).exec();
 
             if (itemExists) {
                 res.send("You already suggested this item.");
@@ -101,6 +101,8 @@ app.post('/wanna-swap', async (req, res) => {
                     video: req.body.video,
                     swapper: swapperExists
                 });
+
+                await Swapper.findOneAndUpdate({email: swapperExists.email}, {$push: {items: item}});
 
                 item.save()
                     .then(() => res.send("Thank you for your swap! I bet it'll be awesome!"));
@@ -123,6 +125,8 @@ app.post('/wanna-swap', async (req, res) => {
 
 
             await swapper.save();
+            await Swapper.findOneAndUpdate({email: swapper.email}, {$push: {items: item}});
+
             item.save()
                 .then(() => res.send("Thank you for your swap! I bet it'll be awesome!"));
         }
@@ -133,14 +137,74 @@ app.post('/wanna-swap', async (req, res) => {
 
 });
 
+app.post("/update-swap", async (req, res) => {
+    try {
+        const swapperMail = req.body.email;
+        const swapperPassword = req.body.password;
 
-app.delete("/wanna-swap" , (req, res) => {
-    //later: delete swap proposal from databank, using email as identifier and password as confirmation requirement
+        const swapper = await Swapper.findOne({email: swapperMail, password: swapperPassword})
+            .populate("items")
+            .exec();
+        const items = swapper.items;
+
+        res.render('update-swap', {
+            items: items,
+            swapper: swapper
+        });
+
+    } catch (err) {
+        console.log(err);
+        res.send("Something went wrong. Please try again.")
+    }
 });
 
 
-app.patch("/wanna-swap", (req, res) => {
-   //later: update swap proposal in databank, using email as identifier and password as confirmation requirement
+app.post("/update-swap/delete" , async (req, res) => {
+    const item = req.body.itemName;
+    const swapper = await Swapper.findById(req.body.swapperID);
+    const swapperID = swapper._id;
+
+    await Item.findOneAndDelete({
+        swapper: swapperID,
+        name: item
+    });
+
+    res.send("Very well. Your item has been deleted.");
+
+});
+
+app.post("/update-swap/:slug" , async (req, res) => {
+    const slug = req.params.slug;
+    const swapper = await Swapper.findById(req.body.swapperID);
+    const newDesc = req.body.itemDescription;
+    const newName = req.body.itemName;
+    const swapperID= swapper._id;
+
+    try {
+        if (newDesc && newName) {
+            await Item.findOneAndUpdate({
+                name: slug,
+                swapper: swapperID
+            }, {description: newDesc, name: newName});
+        } else if (newDesc) {
+            await Item.findOneAndUpdate({
+                name: slug,
+                swapper: swapperID
+            }, {description: newDesc});
+        } else if (newName) {
+            await Item.findOneAndUpdate({
+                name: slug,
+                swapper: swapperID
+            }, {name: newName});
+        }
+
+        res.send("Your item has been updated!");
+    } catch (err){
+        console.log(err);
+        res.send("Something went wrong. Please try again.")
+    }
+
+
 });
 
 
