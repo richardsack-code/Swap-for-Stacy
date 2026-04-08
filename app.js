@@ -1,8 +1,8 @@
 import express from 'express';
-import { logger } from './middlewares/logger.js';
-import connectDB from './config/db.js';
-import Item from './models/Item.js';
-import Swapper from './models/Swapper.js';
+import { logger } from './src/middlewares/logger.js';
+import connectDB from './src/config/db.js';
+import {swapRouter, renderUpdateSwapRouter, updateSwapRouter, deleteSwapRouter} from "./src/routes/swapRoutes.js";
+import {easterEggRouter} from "./src/routes/easterEggRoutes.js";
 
 //this part I got from AI
 import { fileURLToPath } from 'url';
@@ -40,6 +40,7 @@ app.get( "/", (req, res) => {
     });
 });
 
+/*
 app.get('/utapau', (req, res) => {
     //Easter egg
     res.sendFile(path.join(__dirname, 'public', 'utapau.html'));
@@ -53,7 +54,9 @@ app.post("/utapau", (req, res) => {
         res.send("...go watch Star Wars...");
     }
 });
+*/
 
+app.use(easterEggRouter);
 
 app.get('/:slug', (req, res) => {
     //later: send static page, depending on slug
@@ -67,7 +70,7 @@ app.get('/:slug', (req, res) => {
 });
 
 
-app.post('/wanna-swap', async (req, res) => {
+/*app.post('/wanna-swap', async (req, res) => {
     //later: post swap proposal to databank. safe email as identifier and password as auth confirmation without creating an "account"
 
     //this really isn't pretty. cleaning up logic for next hand-in
@@ -136,7 +139,11 @@ app.post('/wanna-swap', async (req, res) => {
     }
 
 });
+ */
 
+app.use(swapRouter);
+
+/*
 app.post("/update-swap", async (req, res) => {
     try {
         const swapperMail = req.body.email;
@@ -157,8 +164,11 @@ app.post("/update-swap", async (req, res) => {
         res.send("Something went wrong. Please try again.")
     }
 });
+ */
 
+app.use(renderUpdateSwapRouter);
 
+/*
 app.post("/update-swap/delete" , async (req, res) => {
     const item = req.body.itemName;
     const swapper = await Swapper.findById(req.body.swapperID);
@@ -172,7 +182,11 @@ app.post("/update-swap/delete" , async (req, res) => {
     res.send("Very well. Your item has been deleted.");
 
 });
+ */
 
+app.use(deleteSwapRouter);
+
+/*
 app.post("/update-swap/:slug" , async (req, res) => {
     const slug = req.params.slug;
     const swapper = await Swapper.findById(req.body.swapperID);
@@ -206,6 +220,9 @@ app.post("/update-swap/:slug" , async (req, res) => {
 
 
 });
+ */
+
+app.use(updateSwapRouter);
 
 
 app.listen(PORT, () => {
