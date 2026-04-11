@@ -1,4 +1,6 @@
-import {findSwapper,findSwapperById, findSwapperByMail, createSwapper, createAndAssignItem, findItem, getSwapperItems, updateItemDesc, updateItemName, deleteItem} from "../services/swapServices.js";
+import {createAndAssignItem, findItem, updateItemDesc, updateItemName, deleteItem} from "../services/swapServices.js";
+import {findSwapperById, findSwapperByMail, createSwapper, getSwapperItems} from "../services/swapperServices.js";
+import {compareHash, hashPassword} from "../utils/passwordHasher.js";
 
 export async function wannaSwap(req, res) {
     try {
@@ -9,7 +11,7 @@ export async function wannaSwap(req, res) {
         //will be updated as soon as "account" functionality has been added
 
         if (swapperExists) {
-            if (password !== swapperExists.password) {
+            if (await compareHash(password, swapperExists.password)) {
                 return res.status(401)
                             .send( "Incorrect Password.");
             }
@@ -39,10 +41,11 @@ export async function wannaSwap(req, res) {
 }
 
 export async function renderUpdateSwap(req, res) {
-    const {email, password} = req.body;
+    const {email} = req.body;
 
     try {
-        const swapper = await findSwapper(email, password);
+        const swapper = await findSwapperByMail(email);
+        console.log(swapper);
         const items = await getSwapperItems(swapper);
 
         res.status(200)

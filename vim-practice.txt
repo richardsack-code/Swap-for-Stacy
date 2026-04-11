@@ -1,6 +1,0 @@
-this
-is
-a
-test
-my vim.motions
-to practice
