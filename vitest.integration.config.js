@@ -1,4 +1,3 @@
-// vitest.config.js
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
@@ -11,7 +10,10 @@ export default defineConfig({
             provider: 'v8',
             reporter: ['text', 'html'],
             include: ['src/**/*.js'],
-        }
+        },
+
+        globalSetup: [],
+        setupFiles: ["__tests__/integration/setup.js"]
     }
 });
 

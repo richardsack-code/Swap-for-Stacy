@@ -12,6 +12,7 @@ yarn-error.log*
 
 .DS_Store
 
+/.pi-dashboard
 
 # Playwright
 node_modules/

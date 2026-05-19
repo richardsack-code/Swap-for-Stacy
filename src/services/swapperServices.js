@@ -23,7 +23,7 @@ export async function createSwapper (name, email, password){
 }
 
 export async function deleteSwapper(email, password) {
-    Swapper.findOneAndDelete({
+    await Swapper.findOneAndDelete({
         email: email,
         password: password
     });
