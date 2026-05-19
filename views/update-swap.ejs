@@ -26,7 +26,7 @@
         <ul>
             <% items.forEach(item => {%>
                 <li>
-                    <form action="/update-swap/<%= item.name%>" method="post">
+                    <form action="/update-swap/<%= item.name%>" method="post" enctype="multipart/form-data">
 
                         <input type="hidden" name="swapperID" value = "<%=swapper._id%>">
                         <%= item.name %> <br><br>
@@ -35,6 +35,9 @@
                         <%= item.description %> <br><br>
                         Change Item Description: <textarea type="text" name="itemDescription"> </textarea><br><br>
 
+
+                        upload images: <input type="file" name="imageInput" id="imageInput" accept="image/*" multiple> <br><br>
+                        <div id="previewContainer"></div>
                         <button>Update</button> <br><br>
 
                     </form>

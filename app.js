@@ -4,6 +4,7 @@ import connectDB from './src/config/db.js';
 import {swapRouter, renderUpdateSwapRouter, updateSwapRouter, deleteSwapRouter} from "./src/routes/swapRoutes.js";
 import {easterEggRouter} from "./src/routes/easterEggRoutes.js";
 
+
 //this part I got from AI
 import { fileURLToPath } from 'url';
 import path from 'path';
@@ -19,12 +20,11 @@ const staticPages = ["/index.html", "/wanna-swap.html", "/current-best-bidding.h
 
 // --- MIDDLEWARE ---
 app.use(logger);
-connectDB();
+await connectDB();
 
 app.use(express.static("public"));
 app.use(express.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
-
 // --- MIDDLEWARE ---
 
 
@@ -65,7 +65,6 @@ app.get('/:slug', (req, res) => {
 
     if (!staticPages.includes(`/${reqURL}`)) {
         res.send(`Sorry, a "${reqURL}" page does not exist here.`);
-        return;
     }
 });
 

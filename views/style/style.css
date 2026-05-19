@@ -82,7 +82,6 @@ h3 {
 }
 
 
-
 .item-present-description {
     margin: 0 auto auto 8px;
     text-align: left;
@@ -112,6 +111,12 @@ h3 {
     color: cadetblue;
 }
 
+#previewContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
 
 
 @media (max-width: 768px) {

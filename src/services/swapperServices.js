@@ -29,6 +29,11 @@ export async function deleteSwapper(email, password) {
     });
 }
 
+export const deleteSwapperById = async (id) => {
+    await Swapper.findByIdAndDelete(id);
+};
+
+
 
 //Get Item array assigned to swapper
 export async function getSwapperItems(swapper) {
@@ -38,5 +43,8 @@ export async function getSwapperItems(swapper) {
     })
         .populate("items")
         .exec();
+
+    if (!findSwapper) throw new Error("Swapper not found");
+    if (findSwapper.items.length === 0) return [];
     return findSwapper.items;
 }

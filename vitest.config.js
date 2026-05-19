@@ -1,0 +1,16 @@
+// vitest.config.js
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
+    test: {
+        exclude: [
+            '**/node_modules/**',
+            '**/__tests__/e2e/**',
+        ],
+        coverage: {
+            provider: 'v8',
+            reporter: ['text', 'html'],
+            include: ['src/**/*.js'],
+        }
+    }
+});

@@ -4,17 +4,21 @@
     <meta charset="UTF-8">
     <title>Wanna Swap</title>
     <link rel="stylesheet" href="style/style.css">
+
 </head>
 <body>
 
     <div class="interact-box">
         <div class="box">
-            <form action="/wanna-swap" method="post">
+            <form action="/wanna-swap" method="post" enctype="multipart/form-data">
                 <h3>What do you wanna swap?</h3>
 
                 What do you want to swap: <input type="text" name="itemName"/> <br><br>
                 Describe it: <input type="text" name ="itemDescription" /> <br><br>
-                upload images <br><br>
+                upload images: <input type="file" name="imageInput" id="imageInput" accept="image/*" multiple> <br><br>
+                <div id="previewContainer"></div>
+
+
                 upload video maybe <br><br>
 
                 <h3>Who are you?</h3>
@@ -30,6 +34,33 @@
             </form>
         </div>
     </div>
+
+    <script>
+        const input = document.getElementById('imageInput');
+        const container = document.getElementById('previewContainer');
+
+        input.addEventListener('change', function () {
+
+            Array.from(this.files).forEach((file, index) => {
+                if (!file.type.startsWith('image/')) return;
+
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.maxWidth = '150px';
+                    img.style.margin = '5px';
+                    container.appendChild(img);
+                };
+
+                reader.readAsDataURL(file);
+            });
+        });
+
+
+
+    </script>
 
 </body>
 </html>

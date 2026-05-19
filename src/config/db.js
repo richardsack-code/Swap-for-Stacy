@@ -4,7 +4,8 @@ import dotenv from "dotenv";
 dotenv.config();
 const mongoURI = process.env.MONGO_URI;
 
-const connectDB = () => {mongoose.connect(mongoURI)
+const connectDB = () => {
+    return mongoose.connect(mongoURI)
     .then(() => console.log('Connected to MongoDB'))
     .catch((err) => console.error('Failed to connect to MongoDB:', err))
     };
